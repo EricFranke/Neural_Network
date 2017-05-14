@@ -1,11 +1,10 @@
 import numpy
-import math
-from numpy import ones
+import neuronalActivation
 
 # generic framework to initialize and train a neural network
 class neuralNetwork:
     
-    # TODO: allow more hidden layer
+    # initializes the ANN, TODO: allow more hidden layer
     def __init__(self, inputNodes, hiddenNodes, outputNodes, learningRate):
         # number of nodes in each layer
         self.inputNodes = inputNodes
@@ -20,6 +19,7 @@ class neuralNetwork:
         self.who = numpy.random.rand(self.outputNodes, self.hiddenNodes) - 0.5
         pass
     
+    # supervised learning over a specified amount of epochs
     def learn(self, inputData, trainingData, epochs):
         if len(trainingData) != self.outputNodes:
             print("Length of output vector does not equal amount of nodes in the output layer.")
@@ -43,8 +43,11 @@ class neuralNetwork:
         for i in range(len(trainingData)):
             self.error[i] = (self.hOutput[i] - trainingData[i])**2 
         
+        # TODO: backpropagation, change weights, include epochs
+        
         return self.error
     
+    # use the ANN to classify the inputData
     def run(self, inputData):
         
         if len(inputData) != self.inputNodes:
@@ -53,22 +56,13 @@ class neuralNetwork:
         
         # calculate output for the hidden layer
         self.hInput = numpy.dot(self.wih, inputData)
-        self.hOutput = self.sigmoidFunction(self.hInput)
+        self.hOutput = neuronalActivation.sigmoidFunction(self.hInput)
         
         # calculate final output
         self.oInput = numpy.dot(self.who, self.hOutput)
-        self.oOutput = self.sigmoidFunction(self.oInput)
+        self.oOutput = neuronalActivation.sigmoidFunction(self.oInput)
         
         return self.oOutput
     
-    @staticmethod
-    def sigmoidFunction(inputData):
-        
-        hOutput = numpy.zeros(len(inputData))
-        
-        for i in range(len(inputData)):
-            hOutput[i] = 1 / (1 + math.e**(-inputData[i]))
-        
-        return hOutput
     # end of class
     pass

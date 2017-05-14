@@ -1,5 +1,6 @@
 import numpy
 import math
+from numpy import ones
 
 # generic framework to initialize and train a neural network
 class neuralNetwork:
@@ -20,7 +21,29 @@ class neuralNetwork:
         pass
     
     def learn(self, inputData, trainingData, epochs):
-        pass
+        if len(trainingData) != self.outputNodes:
+            print("Length of output vector does not equal amount of nodes in the output layer.")
+            pass
+        
+        if len(inputData) != self.inputNodes:
+            print("Length of input vector does not equal the amount of nodes in the input layer.")
+            pass       
+        
+        # calculate output for the hidden layer
+        self.hInput = numpy.dot(self.wih, inputData)
+        self.hOutput = self.sigmoidFunction(self.hInput)
+        
+        # calculate final output
+        self.oInput = numpy.dot(self.who, self.hOutput)
+        self.oOutput = self.sigmoidFunction(self.oInput)
+        
+        # calculate the error
+        self.error = numpy.zeros(len(self.hOutput))
+        
+        for i in range(len(trainingData)):
+            self.error[i] = (self.hOutput[i] - trainingData[i])**2 
+        
+        return self.error
     
     def run(self, inputData):
         

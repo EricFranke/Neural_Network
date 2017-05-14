@@ -1,10 +1,11 @@
 import numpy
-import neuronalActivation
+import neuronalFunctions
 
 # generic framework to initialize and train a neural network
 class neuralNetwork:
     
-    # initializes the ANN, TODO: allow more hidden layer
+    # initializes the ANN
+    # TODO: allow more hidden layer
     def __init__(self, inputNodes, hiddenNodes, outputNodes, learningRate):
         # number of nodes in each layer
         self.inputNodes = inputNodes
@@ -32,19 +33,15 @@ class neuralNetwork:
         
         # calculate output for the hidden layer
         self.hInput = numpy.dot(self.wih, inputData)
-        self.hOutput = neuronalActivation.sigmoidFunction(self.hInput)
+        self.hOutput = neuronalFunctions.sigmoidFunction(self.hInput)
         
         # calculate final output
         self.oInput = numpy.dot(self.who, self.hOutput)
-        self.oOutput = neuronalActivation.sigmoidFunction(self.oInput)
+        self.oOutput = neuronalFunctions.sigmoidFunction(self.oInput)
         
-        # calculate the error
-        self.error = numpy.zeros(len(self.hOutput))
+        # get the error
+        self.error = neuronalFunctions.errorFunction(self.oOutput, trainingData)
         
-        for i in range(len(trainingData)):
-            self.error[i] = (self.hOutput[i] - trainingData[i])**2 
-        
-        return self.error
     
     # use the ANN to classify the inputData
     def run(self, inputData):
@@ -55,11 +52,11 @@ class neuralNetwork:
         
         # calculate output for the hidden layer
         self.hInput = numpy.dot(self.wih, inputData)
-        self.hOutput = neuronalActivation.sigmoidFunction(self.hInput)
+        self.hOutput = neuronalFunctions.sigmoidFunction(self.hInput)
         
         # calculate final output
         self.oInput = numpy.dot(self.who, self.hOutput)
-        self.oOutput = neuronalActivation.sigmoidFunction(self.oInput)
+        self.oOutput = neuronalFunctions.sigmoidFunction(self.oInput)
         
         return self.oOutput
     

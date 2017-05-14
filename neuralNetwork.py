@@ -1,6 +1,7 @@
 import numpy
 import math
 
+# generic framework to initialize and train a neural network
 class neuralNetwork:
     
     def __init__(self, inputNodes, hiddenNodes, outputNodes, learningRate):

@@ -4,6 +4,7 @@ import math
 # generic framework to initialize and train a neural network
 class neuralNetwork:
     
+    # TODO: allow more hidden layer
     def __init__(self, inputNodes, hiddenNodes, outputNodes, learningRate):
         # number of nodes in each layer
         self.inputNodes = inputNodes
@@ -18,7 +19,10 @@ class neuralNetwork:
         self.who = numpy.random.rand(self.outputNodes, self.hiddenNodes) - 0.5
         pass
     
-    def learn(self, inputData):
+    def learn(self, inputData, trainingData, epochs):
+        pass
+    
+    def run(self, inputData):
         
         if len(inputData) != self.inputNodes:
             print("Length of input vector does not equal the amount of nodes in the input layer.")
@@ -28,12 +32,11 @@ class neuralNetwork:
         self.hInput = numpy.dot(self.wih, inputData)
         self.hOutput = self.sigmoidFunction(self.hInput)
         
-        # calculate output for the output layer
+        # calculate final output
         self.oInput = numpy.dot(self.who, self.hOutput)
         self.oOutput = self.sigmoidFunction(self.oInput)
         
-        # apply error function
-        pass
+        return self.oOutput
     
     @staticmethod
     def sigmoidFunction(inputData):

@@ -14,12 +14,13 @@ class neuralNetwork:
         # learning rate
         self.learningRate = learningRate
         
-        # weight matrices, i = input, h = hidden, o = output
+        # random initialization of the weight matrices, i = input, h = hidden, o = output
         self.wih = numpy.random.rand(self.hiddenNodes, self.inputNodes) - 0.5
         self.who = numpy.random.rand(self.outputNodes, self.hiddenNodes) - 0.5
         pass
     
     # supervised learning over a specified amount of epochs
+    # TODO: backpropagation, change weights, include epochs
     def learn(self, inputData, trainingData, epochs):
         if len(trainingData) != self.outputNodes:
             print("Length of output vector does not equal amount of nodes in the output layer.")
@@ -31,19 +32,17 @@ class neuralNetwork:
         
         # calculate output for the hidden layer
         self.hInput = numpy.dot(self.wih, inputData)
-        self.hOutput = self.sigmoidFunction(self.hInput)
+        self.hOutput = neuronalActivation.sigmoidFunction(self.hInput)
         
         # calculate final output
         self.oInput = numpy.dot(self.who, self.hOutput)
-        self.oOutput = self.sigmoidFunction(self.oInput)
+        self.oOutput = neuronalActivation.sigmoidFunction(self.oInput)
         
         # calculate the error
         self.error = numpy.zeros(len(self.hOutput))
         
         for i in range(len(trainingData)):
             self.error[i] = (self.hOutput[i] - trainingData[i])**2 
-        
-        # TODO: backpropagation, change weights, include epochs
         
         return self.error
     

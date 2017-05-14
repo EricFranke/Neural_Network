@@ -1,5 +1,5 @@
 import numpy
-import neuronalFunctions
+import supportFunctions
 
 # generic framework to initialize and train a neural network
 class neuralNetwork:
@@ -33,14 +33,14 @@ class neuralNetwork:
         
         # calculate output for the hidden layer
         self.hInput = numpy.dot(self.wih, inputData)
-        self.hOutput = neuronalFunctions.sigmoidFunction(self.hInput)
+        self.hOutput = supportFunctions.sigmoidFunction(self.hInput)
         
         # calculate final output
         self.oInput = numpy.dot(self.who, self.hOutput)
-        self.oOutput = neuronalFunctions.sigmoidFunction(self.oInput)
+        self.oOutput = supportFunctions.sigmoidFunction(self.oInput)
         
         # get the error
-        self.error = neuronalFunctions.errorFunction(self.oOutput, trainingData)
+        self.error = supportFunctions.errorFunction(self.oOutput, trainingData)
         
     
     # use the ANN to classify the inputData
@@ -52,11 +52,11 @@ class neuralNetwork:
         
         # calculate output for the hidden layer
         self.hInput = numpy.dot(self.wih, inputData)
-        self.hOutput = neuronalFunctions.sigmoidFunction(self.hInput)
+        self.hOutput = supportFunctions.sigmoidFunction(self.hInput)
         
         # calculate final output
         self.oInput = numpy.dot(self.who, self.hOutput)
-        self.oOutput = neuronalFunctions.sigmoidFunction(self.oInput)
+        self.oOutput = supportFunctions.sigmoidFunction(self.oInput)
         
         return self.oOutput
     

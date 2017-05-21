@@ -31,8 +31,10 @@ class neuralNetwork:
             print("Length of input vector does not equal the amount of nodes in the input layer.")
             pass       
         
+        self.input = numpy.array(inputData,ndmin=2)
+        
         # calculate output for the hidden layer
-        self.hInput = numpy.dot(self.wih, inputData)
+        self.hInput = numpy.dot(self.wih, self.input)
         self.hOutput = supportFunctions.sigmoidFunction(self.hInput)
         
         # calculate final output
@@ -41,6 +43,10 @@ class neuralNetwork:
         
         # get the error
         self.error = supportFunctions.errorFunction(self.oOutput, trainingData)
+        
+        # change weights between hidden- and output-layer
+        # TODO: fix vector dimensions
+        self.who += self.learningRate * numpy.dot(self.error * self.oOutput * (1 - self.oOutput), self.hOutput)
         
     
     # use the ANN to classify the inputData
@@ -62,3 +68,9 @@ class neuralNetwork:
     
     # end of class
     pass
+
+myNetwork = neuralNetwork(3,5,3,0.2)
+trainingData = numpy.random.rand(3,1)
+inputData = numpy.random.rand(3,1)
+
+myNetwork.learn(inputData, trainingData, 1)

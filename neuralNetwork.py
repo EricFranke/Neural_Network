@@ -42,13 +42,14 @@ class neuralNetwork:
         self.oOutput = supportFunctions.sigmoidFunction(self.oInput)
         
         # get the error
-        self.error = supportFunctions.errorFunction(self.oOutput, trainingData)
+        self.OutputError = supportFunctions.errorFunction(self.oOutput, trainingData)
         
         # change weights between hidden- and output-layer
-        # TODO: fix vector dimensions
-        self.who += self.learningRate * numpy.dot(self.error * self.oOutput * (1 - self.oOutput), self.hOutput)
+        self.who += self.learningRate * numpy.dot(self.OutputError * self.oOutput * (1 - self.oOutput), numpy.transpose(self.hOutput))
         
-    
+        # change weights between input- and hidden-layer
+        # self.HiddenError
+        
     # use the ANN to classify the inputData
     def run(self, inputData):
         
@@ -72,5 +73,4 @@ class neuralNetwork:
 myNetwork = neuralNetwork(3,5,3,0.2)
 trainingData = numpy.random.rand(3,1)
 inputData = numpy.random.rand(3,1)
-
 myNetwork.learn(inputData, trainingData, 1)

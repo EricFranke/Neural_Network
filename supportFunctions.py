@@ -3,7 +3,7 @@ import math
   
 def sigmoidFunction(inputData):
         
-    hOutput = numpy.zeros(len(inputData))
+    hOutput = numpy.zeros([len(inputData),1])
         
     for i, inputSample in enumerate(inputData):
         hOutput[i] = 1 / (1 + math.e**(-inputSample))
@@ -12,7 +12,7 @@ def sigmoidFunction(inputData):
 
 def errorFunction(inputData, trainingData):
     
-    error = numpy.zeros(len(inputData))
+    error = numpy.zeros([len(inputData),1])
     
     for i, trainingSample in enumerate(trainingData):
         error[i] = (inputData[i] - trainingSample)**2 

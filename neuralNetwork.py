@@ -21,34 +21,47 @@ class neuralNetwork:
         pass
     
     # supervised learning over a specified amount of epochs
-    # TODO: backpropagation, change weights, include epochs
     def learn(self, inputData, trainingData, epochs):
-        if len(trainingData) != self.outputNodes:
-            print("Length of output vector does not equal amount of nodes in the output layer.")
-            pass
         
-        if len(inputData) != self.inputNodes:
-            print("Length of input vector does not equal the amount of nodes in the input layer.")
-            pass       
+        print(self.who)
         
-        self.input = numpy.array(inputData,ndmin=2)
+        while(epochs > 0):
+            
+            if len(trainingData) != self.outputNodes:
+                print("Length of output vector does not equal amount of nodes in the output layer.")
+                pass
         
-        # calculate output for the hidden layer
-        self.hInput = numpy.dot(self.wih, self.input)
-        self.hOutput = supportFunctions.sigmoidFunction(self.hInput)
+            
+            if len(inputData) != self.inputNodes:
+                print("Length of input vector does not equal the amount of nodes in the input layer.")
+                pass       
         
-        # calculate final output
-        self.oInput = numpy.dot(self.who, self.hOutput)
-        self.oOutput = supportFunctions.sigmoidFunction(self.oInput)
+            self.input = numpy.array(inputData, ndmin=2)
         
-        # get the error
-        self.OutputError = supportFunctions.errorFunction(self.oOutput, trainingData)
+            # calculate output for the hidden layer
+            self.hInput = numpy.dot(self.wih, self.input)
+            self.hOutput = supportFunctions.sigmoidFunction(self.hInput)
         
-        # change weights between hidden- and output-layer
-        self.who += self.learningRate * numpy.dot(self.OutputError * self.oOutput * (1 - self.oOutput), numpy.transpose(self.hOutput))
+            # calculate final output
+            self.oInput = numpy.dot(self.who, self.hOutput)
+            self.oOutput = supportFunctions.sigmoidFunction(self.oInput)
         
-        # change weights between input- and hidden-layer
-        # self.HiddenError
+            # get the error
+            self.outputError = supportFunctions.errorFunction(self.oOutput, trainingData)
+            self.hiddenError = numpy.dot(numpy.transpose(self.who), self.outputError)
+        
+            # change weights between hidden- and output-layer
+            self.who += self.learningRate * numpy.dot(self.outputError * self.oOutput * (1 - self.oOutput), numpy.transpose(self.hOutput))
+        
+            # change weights between input- and hidden-layer
+            self.wih += self.learningRate * numpy.dot(self.hiddenError * self.hOutput * (1 - self.hOutput), numpy.transpose(self.input))
+               
+            # decrease epoch-counter
+            epochs -= 1;
+            
+        print(self.who)
+                                                
+        pass
         
     # use the ANN to classify the inputData
     def run(self, inputData):
@@ -69,8 +82,3 @@ class neuralNetwork:
     
     # end of class
     pass
-
-myNetwork = neuralNetwork(3,5,3,0.2)
-trainingData = numpy.random.rand(3,1)
-inputData = numpy.random.rand(3,1)
-myNetwork.learn(inputData, trainingData, 1)

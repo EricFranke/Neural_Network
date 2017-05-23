@@ -23,18 +23,16 @@ class neuralNetwork:
     # supervised learning over a specified amount of epochs
     def learn(self, inputData, trainingData, epochs):
         
-        print(self.who)
+        if len(trainingData) != self.outputNodes:
+            print("Length of output vector does not equal amount of nodes in the output layer.")
+            pass
+        
+            
+        if len(inputData) != self.inputNodes:
+            print("Length of input vector does not equal the amount of nodes in the input layer.")
+            pass   
         
         while(epochs > 0):
-            
-            if len(trainingData) != self.outputNodes:
-                print("Length of output vector does not equal amount of nodes in the output layer.")
-                pass
-        
-            
-            if len(inputData) != self.inputNodes:
-                print("Length of input vector does not equal the amount of nodes in the input layer.")
-                pass       
         
             self.input = numpy.array(inputData, ndmin=2)
         

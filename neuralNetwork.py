@@ -2,10 +2,10 @@ import numpy
 import supportFunctions
 
 # generic framework to initialize and train a neural network
+# TODO: variable amount of hidden layer
 class neuralNetwork:
     
     # initializes the ANN
-    # TODO: allow more hidden layer
     def __init__(self, inputNodes, hiddenNodes, outputNodes, learningRate):
         # number of nodes in each layer
         self.inputNodes = inputNodes
@@ -79,6 +79,14 @@ class neuralNetwork:
         self.oOutput = supportFunctions.sigmoidFunction(self.oInput)
         
         return self.oOutput
+    
+    # store the configuration of the neural network on the hard drive
+    def saveConfig(self):
+        pass
+    
+    # load the configuration of a neural network from the hard drive
+    def loadConfig(self, path):
+        pass
     
     # end of class
     pass

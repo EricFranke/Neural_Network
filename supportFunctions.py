@@ -18,3 +18,10 @@ def errorFunction(inputData, trainingData):
         error[i] = (inputData[i] - trainingSample)**2 
         
     return error
+
+def importMNIST():
+    
+    dataFile = open("./data/mnist_train.csv","r")
+    dataList = dataFile.readlines()
+    dataFile.close()
+    return dataList

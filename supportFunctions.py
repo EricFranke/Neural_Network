@@ -29,7 +29,7 @@ def importMNIST(name):
     fullData = dataFile.readlines()
     dataFile.close()
     
-    # pre allocate space
+    # pre-allocate space
     dataMatrix = np.zeros((len(fullData), len(fullData[0].split(","))))
     
     for i, currentDataSet in enumerate(fullData):

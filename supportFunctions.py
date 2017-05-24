@@ -12,12 +12,12 @@ def sigmoidFunction(inputData):
     return hOutput
 
 # error function
-def errorFunction(inputData, trainingData):
+def errorFunction(outputData, trainingData):
     
-    error = np.zeros([len(inputData),1])
+    error = np.zeros((max(np.shape(trainingData)),1))
     
     for i, trainingSample in enumerate(trainingData):
-        error[i] = (inputData[i] - trainingSample)**2 
+        error[i] = (outputData[i] - trainingSample)**2 
         
     return error
 

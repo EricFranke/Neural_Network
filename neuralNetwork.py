@@ -53,7 +53,7 @@ class neuralNetwork:
                 oOutput = supportFunctions.sigmoidFunction(oInput)
         
                 # get the error
-                outputError = (oOutput - currentLabel)**2
+                outputError = currentLabel - oOutput
                 hiddenError = np.dot(np.transpose(self.who), outputError)
         
                 # change weights between hidden- and output-layer
@@ -80,17 +80,17 @@ class neuralNetwork:
             print("Length of input vector does not equal the amount of nodes in the input layer.")
             pass
         
-        self.input = (np.reshape(inputData,(max(np.shape(inputData)),1)))
+        currentInput = (np.reshape(inputData,(max(np.shape(inputData)),1)))
         
         # calculate output for the hidden layer
-        self.hInput = np.dot(self.wih, self.input)
-        self.hOutput = supportFunctions.sigmoidFunction(self.hInput)
+        hInput = np.dot(self.wih, currentInput)
+        hOutput = supportFunctions.sigmoidFunction(hInput)
         
         # calculate final output
-        self.oInput = np.dot(self.who, self.hOutput)
-        self.oOutput = supportFunctions.sigmoidFunction(self.oInput)
+        oInput = np.dot(self.who, hOutput)
+        oOutput = supportFunctions.sigmoidFunction(oInput)
         
-        return self.oOutput
+        return oOutput
     
     # store the configuration of the neural network on the hard drive
     def saveConfig(self):

@@ -1,25 +1,15 @@
 import numpy as np
 import math
 
-# neural activation function  
+# neural activation function in range (0,1)  
 def sigmoidFunction(inputData):
         
-    hOutput = np.zeros([len(inputData),1])
+    output = np.zeros((max(np.shape(inputData)),1))
         
     for i, inputSample in enumerate(inputData):
-        hOutput[i] = 1 / (1 + math.e**(-inputSample))
+        output[i] = 1 / (1 + math.e**(-inputSample))   
         
-    return hOutput
-
-# error function
-def errorFunction(outputData, trainingData):
-    
-    error = np.zeros((max(np.shape(trainingData)),1))
-    
-    for i, trainingSample in enumerate(trainingData):
-        error[i] = (outputData[i] - trainingSample)**2 
-        
-    return error
+    return output
 
 # imports the mnist csv-file and transforms it according to the ANN architecture
 # return values: 
@@ -34,13 +24,13 @@ def importMNIST(file):
     
     # pre-allocate space
     dataMatrix = np.zeros((len(fullData), len(fullData[0].split(","))-1))
-    labelMatrix = np.zeros((len(fullData), 10)) + 0.1
+    labelMatrix = np.zeros((len(fullData), 10)) + 0.01
     
     for i, currentDataSet in enumerate(fullData):
         # transforms imported data into matrix containing integer values
         currentDataSet = list(map(int,currentDataSet.split(",")))
         
-        labelMatrix[i,currentDataSet[0]] = 0.999
+        labelMatrix[i,currentDataSet[0]] = 0.99
         dataMatrix[i] = currentDataSet[1:]
     
     # integer range from [0 255] -> [~0.1 ~0.999] to fit the range of the sigmoid function

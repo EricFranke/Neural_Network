@@ -21,46 +21,59 @@ class neuralNetwork:
         pass
     
     # supervised learning over a specified amount of epochs
-    def learn(self, inputData, trainingData, epochs):
+    # parameter:
+    #    - inputMatrix: each line represents one data set
+    #    - labelMatrix: each line represents one label
+    #    - epochs: number of times the inputMatrix is used to train the network
+    def learn(self, inputMatrix, labelMatrix, epochs):
         
-        if max(np.shape(trainingData)) != self.outputNodes:
+        if labelMatrix.shape[1] != self.outputNodes:
             print("Length of output vector does not equal amount of nodes in the output layer.")
             pass
         
             
-        if max(np.shape(inputData)) != self.inputNodes:
+        if inputMatrix.shape[1] != self.inputNodes:
             print("Length of input vector does not equal the amount of nodes in the input layer.")
             pass   
         
         while(epochs > 0):
-            # transform to column vector for matrix multiplication
-            self.input = (np.reshape(inputData,(max(np.shape(inputData)),1)))
-            self.label = (np.reshape(trainingData,(max(np.shape(trainingData)),1)))
+            
+            # iterate over both inputMatrix and labelMatrix
+            for inputData, labelData in zip(inputMatrix, labelMatrix):
+                # transform to column vector for matrix multiplication
+                currentInput = (np.reshape(inputData,(max(np.shape(inputData)),1)))
+                currentLabel = (np.reshape(labelData,(max(np.shape(labelData)),1)))
         
-            # calculate output for the hidden layer
-            self.hInput = np.dot(self.wih, self.input)
-            self.hOutput = supportFunctions.sigmoidFunction(self.hInput)
+                # calculate output for the hidden layer
+                hInput = np.dot(self.wih, currentInput)
+                hOutput = supportFunctions.sigmoidFunction(hInput)
         
-            # calculate final output
-            self.oInput = np.dot(self.who, self.hOutput)
-            self.oOutput = supportFunctions.sigmoidFunction(self.oInput)
+                # calculate final output
+                oInput = np.dot(self.who, hOutput)
+                oOutput = supportFunctions.sigmoidFunction(oInput)
         
-            # get the error
-            self.outputError = supportFunctions.errorFunction(self.oOutput, self.label)
-            self.hiddenError = np.dot(np.transpose(self.who), self.outputError)
+                # get the error
+                outputError = (oOutput - currentLabel)**2
+                hiddenError = np.dot(np.transpose(self.who), outputError)
         
-            # change weights between hidden- and output-layer
-            self.who += self.learningRate * np.dot(self.outputError * self.oOutput * (1 - self.oOutput), np.transpose(self.hOutput))
+                # change weights between hidden- and output-layer
+                self.who += self.learningRate * np.dot(outputError * oOutput * (1.0 - oOutput), np.transpose(hOutput))
         
-            # change weights between input- and hidden-layer
-            self.wih += self.learningRate * np.dot(self.hiddenError * self.hOutput * (1 - self.hOutput), np.transpose(self.input))
+                # change weights between input- and hidden-layer
+                self.wih += self.learningRate * np.dot(hiddenError * hOutput * (1.0 - hOutput), np.transpose(currentInput))
                
             # decrease epoch-counter
             epochs -= 1;
+                           
+        print(self.wih)
                                                 
         pass
         
     # use the ANN to classify the inputData
+    # parameter:
+    #    - inputData: a vector containing one data set
+    # output:
+    #    - oOutput: 1-by-self.outputnodes vector containing the classification
     def run(self, inputData):
         
         if max(np.shape(inputData)) != self.inputNodes:

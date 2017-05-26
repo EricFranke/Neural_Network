@@ -4,12 +4,9 @@ import math
 # neural activation function in range (0,1)  
 def sigmoidFunction(inputData):
         
-    output = np.zeros((max(np.shape(inputData)),1))
+    output = list(map(lambda x: 1 / (1 + math.e**(-x)), inputData))
         
-    for i, inputSample in enumerate(inputData):
-        output[i] = 1 / (1 + math.e**(-inputSample))   
-        
-    return output
+    return np.reshape(output, (max(np.shape(output)),1))
 
 # imports the mnist csv-file and transforms it according to the ANN architecture
 # return values: 

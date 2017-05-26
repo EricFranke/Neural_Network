@@ -64,8 +64,6 @@ class neuralNetwork:
                
             # decrease epoch-counter
             epochs -= 1;
-                           
-        print(self.wih)
                                                 
         pass
         
@@ -94,11 +92,13 @@ class neuralNetwork:
     
     # store the configuration of the neural network on the hard drive
     def saveConfig(self):
-        pass
+        np.save("./config/wih", self.wih)
+        np.save("./config/who", self.who)
     
     # load the configuration of a neural network from the hard drive
-    def loadConfig(self, path):
-        pass
+    def loadConfig(self):
+        self.wih = np.load("./config/wih.npy")
+        self.who = np.load("./config/who.npy")
     
     # end of class
     pass
